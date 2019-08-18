@@ -68,7 +68,7 @@ particles () {
 				NEGATIVE=""
 			fi
 
-			PARTICLE="${PARTICLE}p ${FIXED} ${DIAGONAL} ${DIAGONAL} ${NEGATIVE}${Z} ${PARAM_MASS}\n"
+			PARTICLE="${PARTICLE}p ${FIXED} ${DIAGONAL} ${DIAGONAL} ${NEGATIVE}$((Z * PARAM_SPACE)) ${PARAM_MASS}\n"
 		done
 		echo -ne "${PARTICLE}"
 	done

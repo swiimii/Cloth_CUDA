@@ -34,9 +34,9 @@ void* physicsThreadFunc(void* nothing) {
 	);
 		
 physicsThreadLoop:
-	for(size_t i = 0; i < 100; ++i) {
+	for(size_t i = 0; i < 1000; ++i) {
 		// CUDA kernel
-		physicsKernel<<<particleCount >> 3,dim3(8,8)>>>(deviceData_dev);
+		physicsKernel<<<particleCount >> 6,dim3(64,8)>>>(deviceData_dev);
 
 		// Swap device buffers
 		Particle* tempParticleBuffer = deviceData_host.read;

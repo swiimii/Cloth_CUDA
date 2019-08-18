@@ -2,19 +2,19 @@
 #define PARTICLE_HPP
 
 struct Vector4 {
-	float x[4];
-	float operator[](const size_t& index) const { return this->x[index]; }
-	float& operator[](const size_t& index) { return this->x[index]; }
+	double x[4];
+	double operator[](const size_t& index) const { return this->x[index]; }
+	double& operator[](const size_t& index) { return this->x[index]; }
 };
 
 struct Binding {
 	int index;
-	float hooke, initDist;
+	double hooke, initDist;
 };
 
 struct Particle {
 	Vector4 position, velocity;
-	float mass;
+	double mass;
 	bool fixed;
 	Binding bindings[8];
 };

@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 
 	std::cerr << " > Read tempParticles...\n";
 	readMesh(std::cin, *tempParticles);
-	std::cerr << "\t" << tempParticles->size() << "\n";
+	std::cerr << "\tcount: " << tempParticles->size() << "\n";
 
 	std::cerr << " > Allocate host memory\n";
 	particleCount = tempParticles->size();

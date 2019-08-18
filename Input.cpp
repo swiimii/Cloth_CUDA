@@ -16,7 +16,7 @@ void readMesh(std::istream& is, std::vector<Particle>& particles) {
 }
 
 /* A particle looks like this:
- *	p [fixed: 0 or 1] [position: 3 float] [mass: 1 float]
+ *	p [fixed: 0 or 1] [position: 3 double] [mass: 1 double]
  */
 void readParticle(std::stringstream& line, std::vector<Particle>& particles) {
 	Particle ret;
@@ -33,13 +33,14 @@ void readParticle(std::stringstream& line, std::vector<Particle>& particles) {
 	for(int i = 0; i < 8; ++i) {
 		ret.bindings[i].index = particles.size();
 		ret.bindings[i].hooke = 0.0f;
+		ret.bindings[i].initDist = 0.0f;
 	}
 
 	particles.push_back(ret);
 }
 
 /* A Binding looks like this:
- * 	b [indices: 2 int] [hooke: 1 float]
+ * 	b [indices: 2 int] [hooke: 1 double]
  */
 void readBinding(std::stringstream& line, std::vector<Particle>& particles) {
 	Binding binding;
@@ -56,17 +57,17 @@ void readBinding(std::stringstream& line, std::vector<Particle>& particles) {
 	difference[2] = particles[indices[0]].position[2]
 		- particles[indices[1]].position[2];
 
-	binding.initDist = (float)sqrt(
+	binding.initDist = (double)sqrt(
 		difference[0] * difference[0]
 		+ difference[1] * difference[1]
 		+ difference[2] * difference[2]
 	);
 
+	for(i = 0; particles[indices[1]].bindings[i].index != indices[1]; ++i);
 	binding.index = indices[0];
-	for(i = 0; particles[binding.index].bindings[i].index != binding.index; ++i);
-	particles[binding.index].bindings[i] = binding;
+	particles[indices[1]].bindings[i] = binding;
 
+	for(i = 0; particles[indices[0]].bindings[i].index != indices[0]; ++i);
 	binding.index = indices[1];
-	for(i = 0; particles[binding.index].bindings[i].index != binding.index; ++i);
-	particles[binding.index].bindings[i] = binding;
+	particles[indices[0]].bindings[i] = binding;
 }

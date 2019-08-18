@@ -1,5 +1,8 @@
 #include "Graphics.hpp"
 
+Vector4 cameraEye = { .x = { -15.0, 100.0, 15.0, 1.0 } };
+Vector4 cameraAt = { .x = { 0.0, 0.0, 0.0, 1.0 } };
+
 void graphicsStart(int* argc, char** argv) {
 	glutInit(argc, argv);
 	glEnable(GL_DEPTH_TEST);
@@ -19,13 +22,13 @@ void myGlutDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	gluLookAt(
-		-50.0, 100.0, 100.0,
-		50.0, 50.0, -50.0,
+		cameraEye.x[0],cameraEye.x[1],cameraEye.x[2],
+		cameraAt.x[0],cameraAt.x[1],cameraAt.x[2],
 		0,1,0
 	);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(90,1.0,1.0,1000.0);
+	gluPerspective(145,1.0,1.0,1000.0);
 
 	glBegin(GL_POINTS);
 	glColor4f(1.0, 1.0, 1.0, 1.0);
