@@ -19,13 +19,13 @@ void myGlutDisplayFunc() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	gluLookAt(
-		-50.0, 100.0, 100.0,
-		50.0, 50.0, -50.0,
+		-75.0, 125.0, 200.0,
+		50.0, 80.0, -50.0,
 		0,1,0
 	);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(90,1.0,1.0,1000.0);
+	gluPerspective(60,1.0,1.0,1000.0);
 
 	glBegin(GL_POINTS);
 	glColor4f(1.0, 1.0, 1.0, 1.0);

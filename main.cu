@@ -28,9 +28,9 @@ int main(int argc, char** argv) {
 	std::vector<Particle>* tempParticles = new std::vector<Particle>;
 	pthread_t physicsTID;
 
-	std::cerr << " > Read tempParticles...\n";
+	std::cerr << " > Read particles...\n";
 	readMesh(std::cin, *tempParticles);
-	std::cerr << "\tcount: " << tempParticles->size() << "\n";
+	std::cerr << "\tparticle count: " << tempParticles->size() << "\n";
 
 	std::cerr << " > Allocate host memory\n";
 	particleCount = tempParticles->size();
