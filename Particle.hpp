@@ -19,4 +19,10 @@ struct Particle {
 	Binding bindings[8];
 };
 
+struct DeviceData {
+		size_t particleCount;
+		Particle* read;
+		Particle* write;
+};
+
 #endif

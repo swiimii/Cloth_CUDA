@@ -15,6 +15,7 @@ void graphicsStart(int* argc, char** argv) {
 }
 
 void myGlutDisplayFunc() {
+	while(!rendering);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	gluLookAt(
@@ -33,6 +34,7 @@ void myGlutDisplayFunc() {
 	glEnd();
 
 	glutSwapBuffers();
+	rendering = false;
 }
 
 void myGlutIdleFunc() {

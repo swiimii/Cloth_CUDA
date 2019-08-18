@@ -14,9 +14,10 @@ find_package(GLUT)
 find_package(Threads)
 
 cuda_add_executable(cloth
-	main.cpp
+	main.cu
 	Graphics.cpp
-	Physics.cu
+	PhysicsThread.cu
+	PhysicsKernel.cu
 	Input.cpp
 )
 target_link_libraries(cloth

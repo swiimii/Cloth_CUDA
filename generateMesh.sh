@@ -97,3 +97,4 @@ bindings () {
 
 [ ${OPT_PARTICLES} == true ] && particles
 [ ${OPT_BINDINGS} == true ] && bindings
+exit 0

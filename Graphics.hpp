@@ -10,6 +10,8 @@
 extern pthread_mutex_t mutex;
 extern pthread_cond_t cond;
 
+extern bool rendering;
+
 extern size_t particleCount;
 extern Vector4* readPositions;
 extern Vector4* writePositions;
