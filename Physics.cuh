@@ -3,9 +3,15 @@
 
 #include <pthread.h>
 
+#include "Particle.hpp"
+
 extern pthread_mutex_t mutex;
 extern pthread_cond_t cond;
 
-void* physicsLoopFunc(void*);
+extern size_t particleCount;
+extern Vector4* readPositions;
+extern Vector4* writePositions;
+
+void* physicsThreadFunc(void*);
 
 #endif

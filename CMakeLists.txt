@@ -17,6 +17,7 @@ cuda_add_executable(cloth
 	main.cpp
 	Graphics.cpp
 	Physics.cu
+	Input.cpp
 )
 target_link_libraries(cloth
 	${CUDA_LIBRARIES}
