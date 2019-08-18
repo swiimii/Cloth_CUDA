@@ -33,10 +33,9 @@ void* physicsThreadFunc(void* nothing) {
 		cudaMemcpyHostToDevice
 	);
 		
-	bool skipLoop = false;
-	size_t stepsPerFrame = 50;
+	const size_t stepsPerFrame = 25;
 physicsThreadLoop:
-	for(size_t i = 0; i < stepsPerFrame; ++i) {
+	for(size_t i = 0; i < stepsPerFrame || rendering; ++i) {
 		// CUDA kernel
 		physicsKernel<<<particleCount >> 2,dim3(4,8)>>>(deviceData_dev);
 
@@ -51,7 +50,6 @@ physicsThreadLoop:
 			cudaMemcpyHostToDevice
 		);
 
-		if(skipLoop) i = stepsPerFrame;
 	}
 
 	//fprintf(stderr,"[P] Copy dev to host\n");
@@ -67,12 +65,6 @@ physicsThreadLoop:
 	// Copy device buffer into host write buffer
 	for(size_t i = 0; i < particleCount; ++i)
 		writePositions[i] = particleBuffer[i].position;
-
-	//if(rendering) {
-	//	fprintf(stderr,"\t[P] frame dropped\n");
-	//	goto physicsThreadLoop;
-	//}
-	if((skipLoop = rendering)) goto physicsThreadLoop;
 
 	// Swap host buffers
 	Vector4* tempPositions = writePositions;
