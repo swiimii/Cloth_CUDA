@@ -1,6 +1,6 @@
 #include "Physics.cuh"
 
-#define TIME_STEP 0.0005f
+#define TIME_STEP 0.001f
 
 __global__
 void physicsKernel(DeviceData* devData) {
@@ -94,7 +94,6 @@ void physicsKernel(DeviceData* devData) {
 		// update velocity
 		particles[blockParticleIndex].velocity.x[i] +=
 			bindingPositions[blockParticleIndex][0].x[i] * TIME_STEP;
-		particles[blockParticleIndex].velocity.x[i] *= 0.99999;
 		// update position if not fixed
 		particles[blockParticleIndex].position.x[i] +=
 			particles[blockParticleIndex].velocity.x[i] * TIME_STEP
