@@ -19,4 +19,7 @@ void* physicsThreadFunc(void*);
 __global__
 void physicsKernel(DeviceData*);
 
+__device__
+void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8]);
+
 #endif
