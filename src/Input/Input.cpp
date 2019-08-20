@@ -1,4 +1,4 @@
-#include "Input.hpp"
+#include <Cloth/Input.hpp>
 
 void readParticle(std::stringstream& line, std::vector<Particle>& particles);
 void readBinding(std::stringstream& line, std::vector<Particle>& particles);

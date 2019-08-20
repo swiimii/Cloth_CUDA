@@ -1,5 +1,4 @@
-#include "Physics.cuh"
-#include <stdio.h>
+#include <Cloth/Physics.cuh>
 
 void* physicsThreadFunc(void* nothing) {
 	// Initialize CUDA context

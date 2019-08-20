@@ -5,6 +5,8 @@
 
 #include "Particle.hpp"
 
+#define TIME_STEP 0.001f
+
 extern pthread_mutex_t mutex;
 extern pthread_cond_t cond;
 

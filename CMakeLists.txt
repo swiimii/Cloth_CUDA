@@ -15,10 +15,11 @@ find_package(Threads)
 
 cuda_add_executable(cloth
 	main.cu
-	Graphics.cpp
-	PhysicsThread.cu
-	PhysicsKernel.cu
-	Input.cpp
+	src/Graphics/Graphics.cpp
+	src/Physics/Thread.cu
+	src/Physics/Kernel.cu
+	src/Physics/BindingForce.cu
+	src/Input/Input.cpp
 )
 target_link_libraries(cloth
 	${CUDA_LIBRARIES}
@@ -28,6 +29,7 @@ target_link_libraries(cloth
 )
 target_include_directories(cloth
 	PUBLIC
+	include
 	${OPENGL_INCLUDE_DIRS}
 	${GLUT_INCLUDE_DIRECTORIES}
 )

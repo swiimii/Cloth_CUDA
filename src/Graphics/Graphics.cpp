@@ -1,4 +1,4 @@
-#include "Graphics.hpp"
+#include <Cloth/Graphics.hpp>
 
 void graphicsStart(int* argc, char** argv) {
 	glutInit(argc, argv);

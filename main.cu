@@ -1,9 +1,9 @@
 #include <pthread.h>
 #include <argp.h>
 
-#include "Graphics.hpp"
-#include "Physics.cuh"
-#include "Input.hpp"
+#include <Cloth/Graphics.hpp>
+#include <Cloth/Physics.cuh>
+#include <Cloth/Input.hpp>
 
 //----------------------------------------------------------------------------//
 // Global Data
