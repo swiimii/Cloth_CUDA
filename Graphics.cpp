@@ -1,8 +1,5 @@
 #include "Graphics.hpp"
 
-bool bindingsOn = true;
-bool colorOn = true;
-
 void graphicsStart(int* argc, char** argv) {
 	glutInit(argc, argv);
 	glEnable(GL_DEPTH_TEST);
@@ -36,7 +33,7 @@ void myGlutDisplayFunc() {
 		glBegin(GL_LINES);
 		for(i = 0; i < 8 && readParticles[j].bindings[i].index != j; ++i) {
 			// Hacky, but it's just for looks
-			if(colorOn) {
+			if(graphicsOptions & VIS_COLOR) {
 				bindingStress = sqrt(sqrt(std::min(1.0f,std::max(0.0f,
 					readParticles[j].bindings[i].stress
 				))));
@@ -47,15 +44,15 @@ void myGlutDisplayFunc() {
 				glColor4f(1.0, 1.0, 1.0, 1.0);
 			}
 
-			if(bindingsOn) {
+			if(graphicsOptions & VIS_BINDINGS) {
 				glVertex4dv(readParticles[j].position.x);
 				glVertex4dv(readParticles[readParticles[j].bindings[i].index].position.x);
 			}
 		}
 		glEnd();
-		if(!bindingsOn) {
+		if(!(graphicsOptions & VIS_BINDINGS)) {
 			glBegin(GL_POINTS);
-			if(colorOn) {
+			if(graphicsOptions & VIS_COLOR) {
 				particleStress /= 8.0;
 				glColor4f(particleStress, 0.0, 1.0 - particleStress, 1.0);
 			}
@@ -76,11 +73,9 @@ void myGlutIdleFunc() {
 void myGlutKeyboardFunc(unsigned char key, int x, int y) {
 	switch(key) {
 	case 'b':
-		bindingsOn = !bindingsOn;
-		break;
+		graphicsOptions ^= VIS_BINDINGS; break;
 	case 'c':
-		colorOn = !colorOn;
-		break;
+		graphicsOptions ^= VIS_COLOR; break;
 	case 27:
 	case 'q':
 		exit(0);

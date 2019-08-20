@@ -10,6 +10,9 @@
 
 #include "Particle.hpp"
 
+#define VIS_BINDINGS 0x1
+#define VIS_COLOR 0x2
+
 extern pthread_mutex_t mutex;
 extern pthread_cond_t cond;
 
@@ -18,6 +21,8 @@ extern bool rendering;
 extern size_t particleCount;
 extern Particle* readParticles;
 extern Particle* writeParticles;
+
+extern size_t graphicsOptions;
 
 void graphicsStart(int* argc, char** argv);
 

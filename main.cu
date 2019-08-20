@@ -1,4 +1,5 @@
 #include <pthread.h>
+#include <argp.h>
 
 #include "Graphics.hpp"
 #include "Physics.cuh"
@@ -17,11 +18,33 @@ size_t particleCount;
 Particle* readParticles;
 Particle* writeParticles;
 
+size_t graphicsOptions = 0;
+
 //----------------------------------------------------------------------------//
 // Main
 //----------------------------------------------------------------------------//
 
+static int parse_opt(int key, char* arg, struct argp_state* state) {
+	switch(key) {
+	case 'b':
+		graphicsOptions |= VIS_BINDINGS; break;
+	case 'c':
+		graphicsOptions |= VIS_COLOR; break;
+	default:
+		break;
+	}
+	return 0;
+}
+
 int main(int argc, char** argv) {
+
+	struct argp_option options[] = {
+		{ "bindings", 'b', 0, 0, "Bindings visible" },
+		{ "color", 'c', 0, 0, "Enable Colors" },
+		{ 0 }
+	};
+	struct argp argp = { options, parse_opt };
+	argp_parse(&argp, argc, argv, 0, 0, 0);
 
 	std::vector<Particle>* tempParticles = new std::vector<Particle>;
 	pthread_t physicsTID;
