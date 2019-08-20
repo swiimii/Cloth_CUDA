@@ -62,6 +62,7 @@ void readBinding(std::stringstream& line, std::vector<Particle>& particles) {
 		+ difference[1] * difference[1]
 		+ difference[2] * difference[2]
 	);
+	binding.stress = 0.0;
 
 	for(i = 0; particles[indices[1]].bindings[i].index != indices[1]; ++i);
 	binding.index = indices[0];

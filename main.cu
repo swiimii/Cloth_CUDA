@@ -14,10 +14,8 @@ pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 bool rendering = true;
 
 size_t particleCount;
-Vector4* readPositions;
-Vector4* writePositions;
-
-Particle* particleBuffer;
+Particle* readParticles;
+Particle* writeParticles;
 
 //----------------------------------------------------------------------------//
 // Main
@@ -34,21 +32,18 @@ int main(int argc, char** argv) {
 
 	std::cerr << " > Allocate host memory\n";
 	particleCount = tempParticles->size();
-	readPositions = new Vector4[particleCount];
-	writePositions = new Vector4[particleCount];
-	particleBuffer = new Particle[particleCount];
+	readParticles = new Particle[particleCount];
+	writeParticles = new Particle[particleCount];
 
 	std::cerr << " > Initialize host memory\n";
-	for(size_t i = 0; i < particleCount; ++i) {
-		particleBuffer[i] = (*tempParticles)[i];
-		readPositions[i] = writePositions[i] = (*tempParticles)[i].position;
-	}
+	for(size_t i = 0; i < particleCount; ++i)
+		readParticles[i] = writeParticles[i] = (*tempParticles)[i];
 	delete tempParticles;
 
 	std::cerr << " > Begin rendering\n";
 
 	// Start physics
-	pthread_create(&physicsTID, NULL, physicsThreadFunc, particleBuffer);
+	pthread_create(&physicsTID, NULL, physicsThreadFunc, writeParticles);
 	// Start graphics
 	graphicsStart(&argc, argv);
 

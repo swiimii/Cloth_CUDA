@@ -10,6 +10,7 @@ struct Vector4 {
 struct Binding {
 	int index;
 	double hooke, initDist;
+	float stress;
 };
 
 struct Particle {

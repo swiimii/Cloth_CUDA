@@ -16,13 +16,13 @@ void* physicsThreadFunc(void* nothing) {
 
 	cudaMemcpy(
 		deviceData_host.read,
-		particleBuffer,
+		writeParticles,
 		particleCount * sizeof(Particle),
 		cudaMemcpyHostToDevice
 	);
 	cudaMemcpy(
 		deviceData_host.write,
-		particleBuffer,
+		writeParticles,
 		particleCount * sizeof(Particle),
 		cudaMemcpyHostToDevice
 	);
@@ -33,9 +33,9 @@ void* physicsThreadFunc(void* nothing) {
 		cudaMemcpyHostToDevice
 	);
 		
-	const size_t stepsPerFrame = 10;
+	const size_t minStepsPerFrame = 100;
 physicsThreadLoop:
-	for(size_t i = 0; i < stepsPerFrame || rendering; ++i) {
+	for(size_t i = 0; i < minStepsPerFrame || rendering; ++i) {
 		// CUDA kernel
 		physicsKernel<<<particleCount >> 2,dim3(4,8)>>>(deviceData_dev);
 
@@ -52,24 +52,18 @@ physicsThreadLoop:
 
 	}
 
-	//fprintf(stderr,"[P] Copy dev to host\n");
-
 	// Copy memory device to host
 	cudaMemcpy(
-		particleBuffer,
+		writeParticles,
 		deviceData_host.read,
 		particleCount * sizeof(Particle),
 		cudaMemcpyDeviceToHost
 	);
 
-	// Copy device buffer into host write buffer
-	for(size_t i = 0; i < particleCount; ++i)
-		writePositions[i] = particleBuffer[i].position;
-
 	// Swap host buffers
-	Vector4* tempPositions = writePositions;
-	writePositions = readPositions;
-	readPositions = tempPositions;
+	Particle* tempParticles = writeParticles;
+	writeParticles = readParticles;
+	readParticles = tempParticles;
 	rendering = true;
 
 	// Handoff to render thread

@@ -11,10 +11,8 @@ extern pthread_cond_t cond;
 extern bool rendering;
 
 extern size_t particleCount;
-extern Vector4* readPositions;
-extern Vector4* writePositions;
-
-extern Particle* particleBuffer;
+extern Particle* readParticles;
+extern Particle* writeParticles;
 
 void* physicsThreadFunc(void*);
 

@@ -1,6 +1,9 @@
 #ifndef GRAPHICS_HPP
 #define GRAPHICS_HPP
 
+#include <cmath>
+#include <algorithm>
+
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -13,8 +16,8 @@ extern pthread_cond_t cond;
 extern bool rendering;
 
 extern size_t particleCount;
-extern Vector4* readPositions;
-extern Vector4* writePositions;
+extern Particle* readParticles;
+extern Particle* writeParticles;
 
 void graphicsStart(int* argc, char** argv);
 

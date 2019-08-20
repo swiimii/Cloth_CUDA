@@ -23,7 +23,7 @@ void physicsKernel(DeviceData* devData) {
 	// Read particles from global memory
 	if(!intraParticleIndex) {
 		particles[blockParticleIndex] = devData->read[globalParticleIndex];
-		particles[blockParticleIndex].velocity.x[1] += -9.81 * TIME_STEP;
+		particles[blockParticleIndex].velocity.x[1] += -10.0 * TIME_STEP;
 	}
 
 	// Read bindings from global memory
@@ -63,6 +63,9 @@ void physicsKernel(DeviceData* devData) {
 	// Get force toward a particle
 	physicalData[blockParticleIndex][intraParticleIndex] -=
 		particles[blockParticleIndex].bindings[intraParticleIndex].initDist;
+	particles[blockParticleIndex].bindings[intraParticleIndex].stress =
+		physicalData[blockParticleIndex][intraParticleIndex]
+		/ particles[blockParticleIndex].bindings[intraParticleIndex].initDist;
 	physicalData[blockParticleIndex][intraParticleIndex] *=
 		particles[blockParticleIndex].bindings[intraParticleIndex].hooke;
 	// physicalData: the force magnitude on a particle toward each binding
@@ -77,23 +80,28 @@ void physicsKernel(DeviceData* devData) {
 	// carefully
 	size_t intraMod2 = intraParticleIndex & 1;
 	size_t intraMod4 = intraParticleIndex & 3;
-	for(i = 0; i < 2; ++i)
-		bindingPositions[blockParticleIndex][intraParticleIndex ^ intraMod2].x[i + (intraMod2<<1)] +=
-			bindingPositions[blockParticleIndex][(intraParticleIndex ^ intraMod2) + 1].x[i + (intraMod2<<1)];
+	size_t intraDiv4 = intraParticleIndex >> 2;
 
-	bindingPositions[blockParticleIndex][intraParticleIndex ^ intraMod4].x[intraMod4] +=
-		bindingPositions[blockParticleIndex][(intraParticleIndex ^ intraMod4) + 2].x[intraMod4];
+	bindingPositions[blockParticleIndex][intraDiv4].x[intraMod4] +=
+		bindingPositions[blockParticleIndex][intraDiv4 + 4].x[intraMod4];
+	bindingPositions[blockParticleIndex][intraDiv4 + 2].x[intraMod4] +=
+		bindingPositions[blockParticleIndex][intraDiv4 + 6].x[intraMod4];
+
+	bindingPositions[blockParticleIndex][intraDiv4].x[intraMod4] +=
+		bindingPositions[blockParticleIndex][intraDiv4 + 2].x[intraMod4];
+
 	if(!intraMod2) {
 		i = intraParticleIndex >> 1;
 		// final sum of forces into bindingPositions[0] on each particle
 		bindingPositions[blockParticleIndex][0].x[i] +=
-			bindingPositions[blockParticleIndex][4].x[i];
+			bindingPositions[blockParticleIndex][1].x[i];
 		// get acceleration
 		bindingPositions[blockParticleIndex][0].x[i] /=
 			particles[blockParticleIndex].mass;
 		// update velocity
 		particles[blockParticleIndex].velocity.x[i] +=
 			bindingPositions[blockParticleIndex][0].x[i] * TIME_STEP;
+		particles[blockParticleIndex].velocity.x[i] *= 0.9996;
 		// update position if not fixed
 		particles[blockParticleIndex].position.x[i] +=
 			particles[blockParticleIndex].velocity.x[i] * TIME_STEP

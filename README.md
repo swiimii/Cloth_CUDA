@@ -14,6 +14,24 @@ point, it swaps the "read" and "write" particle data buffers so OpenGL can
 render the next frame.
 - OpenGL: Render particle positions using GL\_POINTS.
 
+## Compiling
+
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+
+## Running
+
+`./sampleRun.sh`
+
+There are a few keys on which the graphics window will act:
+- `b` toggles bindings
+- `c` toggles colors
+- `q` and `ESC` exit the program
+
 ## Gallery
 
 65536 (256x256) particle mesh. 
