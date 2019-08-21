@@ -25,7 +25,17 @@ make
 
 ## Running
 
+### Automagic
+
 `./sampleRun.sh`
+
+### Manual
+
+`./generateMesh [ARGUMENTS] | ./build/bin/cloth [OPTIONS]`
+
+Give both those commands a separate run with `--help` to get some actual
+instructions. Look at `sampleRun.sh` for a good starting point for paramter
+tweaking.
 
 There are a few keys on which the graphics window will act:
 - `b` toggles bindings
