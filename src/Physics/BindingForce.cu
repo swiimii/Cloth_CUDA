@@ -39,6 +39,7 @@ __device__ void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8
 	// Get force toward a particle
 	physicalData -=
 		particles[blockParticleIndex].bindings[intraParticleIndex].initDist;
+	physicalData *= (double)(physicalData > 0);
 	particles[blockParticleIndex].bindings[intraParticleIndex].stress =
 		physicalData
 		/ particles[blockParticleIndex].bindings[intraParticleIndex].initDist;

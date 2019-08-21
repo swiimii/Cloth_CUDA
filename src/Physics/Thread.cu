@@ -32,7 +32,7 @@ void* physicsThreadFunc(void* nothing) {
 		cudaMemcpyHostToDevice
 	);
 		
-	const size_t minStepsPerFrame = 100;
+	const size_t minStepsPerFrame = 64;
 physicsThreadLoop:
 	for(size_t i = 0; i < minStepsPerFrame || rendering; ++i) {
 		// CUDA kernel
