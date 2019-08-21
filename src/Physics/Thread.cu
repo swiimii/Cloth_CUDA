@@ -1,5 +1,7 @@
 #include <Cloth/Physics.cuh>
 
+#include <stdio.h>
+
 void* physicsThreadFunc(void* nothing) {
 	// Initialize CUDA context
 	DeviceData deviceData_host = {

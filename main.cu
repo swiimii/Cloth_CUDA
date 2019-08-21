@@ -14,9 +14,9 @@ pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 
 bool rendering = true;
 
-size_t particleCount;
-Particle* readParticles;
-Particle* writeParticles;
+size_t particleCount = 0;
+Particle* readParticles = nullptr;
+Particle* writeParticles = nullptr;
 
 size_t graphicsOptions = 0;
 

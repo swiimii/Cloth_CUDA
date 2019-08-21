@@ -42,10 +42,19 @@ There are a few keys on which the graphics window will act:
 - `c` toggles colors
 - `q` and `ESC` exit the program
 
+## Stats
+
+Rendered using an Nvidia GeForce 840M on my laptop I bought in 2015. 
+
+Particles in mesh | Milliseconds per 1000 time steps
+----------------- | --------------------------------
+64 | 30.157
+256 | 41.538
+1024 | 114.09
+4096 | 403.27
+16384 | 1287.0
+65536 | 5821.1
+262144 | 23327
+
 ## Gallery
 
-65536 (256x256) particle mesh. 
-- [Real time screen recording](https://vimeo.com/354576797)
-rendered using an Nvidia GeForce 840M on my laptop I bought in 2015. 
-- [Same recording sped up 10x](https://vimeo.com/354577104)
-to make it look less like it is on the Moon.
