@@ -69,7 +69,7 @@ Doing some quick math with the stats above, that is about 100 frames per second.
 Keep in mind though that all hundred frames making it through `recordmydesktop`
 and several `ffmpeg` cropping commands is unlikely, but the computation is what
 counts!
-- [Color](https://vimeo.com/355222809): The blue represents relaxed bindings while red bindings are more
-stressed.
-- [Visibility](https://vimeo.com/355222799): Same simulation. This is just to show that the graphics can
-be changed at runtime.
+- [Color](https://vimeo.com/355227231): The blue represents relaxed bindings
+while red bindings are more stressed.
+- [Visibility](https://vimeo.com/355227223): Same simulation. This is just to
+show that the graphics can be changed at runtime.
