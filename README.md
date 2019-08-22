@@ -68,5 +68,3 @@ The following videos are 1600-particle meshes with 64 time steps per frame.
 Doing some quick math with the stats above, that is about 100 frames per second.
 - [Color](https://vimeo.com/355227231): The blue represents relaxed bindings
 while red bindings are more stressed.
-- [Visibility](https://vimeo.com/355227223): Same simulation. This is just to
-show that the graphics can be changed at runtime.
