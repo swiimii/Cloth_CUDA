@@ -66,9 +66,6 @@ mesh appends about 100 microseconds per 1000 time steps.
 
 The following videos are 1600-particle meshes with 64 time steps per frame.
 Doing some quick math with the stats above, that is about 100 frames per second.
-Keep in mind though that all hundred frames making it through `recordmydesktop`
-and several `ffmpeg` cropping commands is unlikely, but the computation is what
-counts!
 - [Color](https://vimeo.com/355227231): The blue represents relaxed bindings
 while red bindings are more stressed.
 - [Visibility](https://vimeo.com/355227223): Same simulation. This is just to
