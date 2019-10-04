@@ -45,8 +45,8 @@ void myGlutDisplayFunc() {
 			}
 
 			if(graphicsOptions & VIS_BINDINGS) {
-				glVertex4dv(readParticles[j].position.x);
-				glVertex4dv(readParticles[readParticles[j].bindings[i].index].position.x);
+				glVertex4fv(readParticles[j].position.x);
+				glVertex4fv(readParticles[readParticles[j].bindings[i].index].position.x);
 			}
 		}
 		glEnd();
@@ -57,7 +57,7 @@ void myGlutDisplayFunc() {
 				glColor4f(particleStress, 0.0, 1.0 - particleStress, 1.0);
 			}
 			else glColor4f(1.0, 1.0, 1.0, 1.0);
-			glVertex4dv(readParticles[j].position.x);
+			glVertex4fv(readParticles[j].position.x);
 			glEnd();
 		}
 	}

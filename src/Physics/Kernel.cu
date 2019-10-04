@@ -7,10 +7,10 @@ void physicsKernel(DeviceData* devData) {
 
 	// BlockDim.x = 4
 
-	size_t blockParticleIndex = threadIdx.x; // [0,4)
-	size_t intraParticleIndex = threadIdx.y; // [0,8)
-	size_t globalParticleIndex = (blockIdx.x << 2) + threadIdx.x;
-	size_t globalBindingIndex = 0;
+	int blockParticleIndex = threadIdx.x >> 3; // [0,4)
+	int intraParticleIndex = threadIdx.x & 0b111; // [0,8)
+	int globalParticleIndex = (blockIdx.x << 2) + blockParticleIndex;
+	int globalBindingIndex = 0;
 
 	//------------------------------------//
 	// Read global memory
@@ -21,6 +21,14 @@ void physicsKernel(DeviceData* devData) {
 		particles[blockParticleIndex] = devData->read[globalParticleIndex];
 		particles[blockParticleIndex].velocity.x[1] += -10.0 * TIME_STEP;
 	}
+//	for(int i = 0; i < 4; ++i) {
+//		for(int offset = 0; offset < (sizeof(Particle) >> 2); offset += 32) {
+//			if(offset + threadIdx.x < (sizeof(Particle) >> 2)) {
+//				(((int*)(void*)(particles))[i])[offset + threadIdx.x] =
+//					(((int*)(void*)(devData->read))[(blockIdx.x << 2) + i])[offset + threadIdx.x];
+//			}
+//		}
+//	}
 
 	// Read bindings from global memory
 	globalBindingIndex =

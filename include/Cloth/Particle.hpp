@@ -8,12 +8,12 @@
 #define PARTICLE_HPP
 
 /*
- * 4D vector of doubles
+ * 4D vector of floats
  */
 struct Vector4 {
-	double x[4];
-	double operator[](const size_t& index) const { return this->x[index]; }
-	double& operator[](const size_t& index) { return this->x[index]; }
+	float x[4];
+	float operator[](const size_t& index) const { return this->x[index]; }
+	float& operator[](const size_t& index) { return this->x[index]; }
 };
 
 /*
@@ -21,15 +21,15 @@ struct Vector4 {
  */
 struct Binding {
 	int index;
-	double hooke, initDist;
+	float hooke, initDist;
 	float stress;
 };
 
 struct Particle {
 	Vector4 position, velocity;
-	double mass;
-	bool fixed;
 	Binding bindings[8];
+	float mass;
+	int fixed;
 };
 
 /*

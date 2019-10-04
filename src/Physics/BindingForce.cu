@@ -2,14 +2,14 @@
 
 __device__ void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8]) {
 
-	size_t blockParticleIndex = threadIdx.x; // [0,4)
-	size_t intraParticleIndex = threadIdx.y; // [0,8)
-	size_t globalParticleIndex = (blockIdx.x << 2) + threadIdx.x;
-	size_t globalBindingIndex =
+	int blockParticleIndex = threadIdx.x >> 3; // [0,4)
+	int intraParticleIndex = threadIdx.x & 0b111; // [0,8)
+	int globalParticleIndex = (blockIdx.x << 2) + blockParticleIndex;
+	int globalBindingIndex =
 		particles[blockParticleIndex].bindings[intraParticleIndex].index;
-	size_t i;
+	int i;
 
-	double physicalData;
+	float physicalData;
 	//------------------------------------//
 	// Calculation
 	//------------------------------------//
@@ -17,7 +17,7 @@ __device__ void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8
 	// Get distance between particles
 	physicalData = 0.0f;
 	for(i = 0; i < 4; ++i) {
-		double difference =
+		float difference =
 			bindingPositions[blockParticleIndex][intraParticleIndex].x[i]
 			- particles[blockParticleIndex].position.x[i];
 
@@ -27,7 +27,7 @@ __device__ void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8
 		physicalData += difference * difference;
 	}
 	physicalData = sqrt(physicalData)
-		 + (double)!(globalParticleIndex - globalBindingIndex);
+		 + (float)!(globalParticleIndex - globalBindingIndex);
 	// physicalData: the distance between particle and each binding
 
 	// Normalize binding vectors
@@ -39,7 +39,7 @@ __device__ void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8
 	// Get force toward a particle
 	physicalData -=
 		particles[blockParticleIndex].bindings[intraParticleIndex].initDist;
-	physicalData *= (double)(physicalData > 0);
+	physicalData *= (float)(physicalData > 0);
 	particles[blockParticleIndex].bindings[intraParticleIndex].stress =
 		physicalData
 		/ particles[blockParticleIndex].bindings[intraParticleIndex].initDist;
@@ -55,9 +55,9 @@ __device__ void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8
 
 	// Sum forces
 	// carefully
-	size_t intraMod2 = intraParticleIndex & 1;
-	size_t intraMod4 = intraParticleIndex & 3;
-	size_t intraDiv4 = intraParticleIndex >> 2;
+	int intraMod2 = intraParticleIndex & 1;
+	int intraMod4 = intraParticleIndex & 3;
+	int intraDiv4 = intraParticleIndex >> 2;
 
 	bindingPositions[blockParticleIndex][intraDiv4].x[intraMod4] +=
 		bindingPositions[blockParticleIndex][intraDiv4 + 4].x[intraMod4];
@@ -82,6 +82,6 @@ __device__ void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8
 		// update position if not fixed
 		particles[blockParticleIndex].position.x[i] +=
 			particles[blockParticleIndex].velocity.x[i] * TIME_STEP
-			* (double)(!particles[blockParticleIndex].fixed);
+			* (float)(!particles[blockParticleIndex].fixed);
 	}
 }
