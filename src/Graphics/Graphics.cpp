@@ -1,15 +1,18 @@
 #include <Cloth/Graphics.hpp>
+#include <iostream>
 
 void graphicsStart(int* argc, char** argv) {
 	glutInit(argc, argv);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 	glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-
-	glutCreateWindow("simple");
+	
+	glViewport(0, 0, 800, 800);
+	glutCreateWindow("ClothSimulation");
 	glutDisplayFunc(myGlutDisplayFunc);
 	glutIdleFunc(myGlutIdleFunc);
 	glutKeyboardFunc(myGlutKeyboardFunc);
+	glutMouseFunc(myMouseFunction);
 
 	glutMainLoop();
 }
@@ -17,11 +20,12 @@ void graphicsStart(int* argc, char** argv) {
 void myGlutDisplayFunc() {
 	if(!rendering) return;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	
+	double zAxisVal = -120.0;
 	gluLookAt(
-		-75.0, 125.0, 200.0,
-		50.0, 80.0, -50.0,
-		0,1,0
+	    500.0, 80.0, zAxisVal,
+	    150.0, 80.0, zAxisVal,
+	    0,1,0
 	);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -82,4 +86,12 @@ void myGlutKeyboardFunc(unsigned char key, int x, int y) {
 	default:
 		break;
 	}
+}
+
+// Mouse input callback
+void myMouseFunction (int button, int state,  int x, int y)
+{
+       //getting cursor position
+       std::cout << "Cursor Position at (" << x << " : " << y << ")" << std::endl;
+    
 }
