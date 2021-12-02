@@ -1,6 +1,10 @@
 #include <Cloth/Graphics.hpp>
 #include <iostream>
 
+int GraphicsState::isClicking = 0;
+int GraphicsState::mouseY = 0;
+int GraphicsState::mouseX = 0;
+
 void graphicsStart(int* argc, char** argv) {
 	glutInit(argc, argv);
 	glEnable(GL_DEPTH_TEST);
@@ -12,7 +16,8 @@ void graphicsStart(int* argc, char** argv) {
 	glutDisplayFunc(myGlutDisplayFunc);
 	glutIdleFunc(myGlutIdleFunc);
 	glutKeyboardFunc(myGlutKeyboardFunc);
-	glutMouseFunc(myMouseFunction);
+	glutMouseFunc(onMouseButtonFunction);
+	glutMotionFunc(mouseMovedWhileClickedFunction);
 
 	glutMainLoop();
 }
@@ -89,9 +94,16 @@ void myGlutKeyboardFunc(unsigned char key, int x, int y) {
 }
 
 // Mouse input callback
-void myMouseFunction (int button, int state,  int x, int y)
+void onMouseButtonFunction (int button, int state,  int x, int y)
 {
-       //getting cursor position
-       std::cout << "Cursor Position at (" << x << " : " << y << ")" << std::endl;
-    
+    //getting cursor position
+    int currState = (GraphicsState::updateMouseState(x,y));
+    std::cout << currState << std::endl;
 }
+
+// Called when mouse is moved while a button is being clicked
+void mouseMovedWhileClickedFunction(int x, int y)
+{
+	std::cout << x << " " << y << std::endl;
+}
+

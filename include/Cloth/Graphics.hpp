@@ -35,6 +35,18 @@ extern Particle* writeParticles;
 
 extern size_t graphicsOptions;
 
+class GraphicsState {
+	public:
+	static int isClicking;
+	static int mouseX, mouseY;
+	static int updateMouseState(int x, int y) {
+		isClicking = (isClicking + 1) % 2; 
+		mouseX = x;
+		mouseY = y;
+		return isClicking;
+	};
+};
+
 //----------------------------------------------------------------------------//
 // Public Function
 //----------------------------------------------------------------------------//
@@ -62,6 +74,8 @@ void myGlutIdleFunc();
 // glutKeyboardFunc -- handle key press
 void myGlutKeyboardFunc(unsigned char key, int x, int y);
 
-void myMouseFunction (int button, int state,  int x, int y);
+void onMouseButtonFunction (int button, int state,  int x, int y);
+
+void mouseMovedWhileClickedFunction(int x, int y);
 
 #endif
