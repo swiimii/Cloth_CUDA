@@ -1,7 +1,8 @@
 #include <Cloth/Physics.cuh>
+#include <Cloth/Helper.cuh>
 
 __global__
-void physicsKernel(DeviceData* devData) {
+void physicsKernel(DeviceData* devData, InputData inputData) {
 	__shared__ Particle particles[4];
 	__shared__ Vector4 bindingPositions[4][8];
 
@@ -19,16 +20,34 @@ void physicsKernel(DeviceData* devData) {
 	// Read particles from global memory
 	if(!intraParticleIndex) {
 		particles[blockParticleIndex] = devData->read[globalParticleIndex];
+
+		// Gravity
 		particles[blockParticleIndex].velocity.x[1] += -10.0 * TIME_STEP;
 	}
-//	for(int i = 0; i < 4; ++i) {
-//		for(int offset = 0; offset < (sizeof(Particle) >> 2); offset += 32) {
-//			if(offset + threadIdx.x < (sizeof(Particle) >> 2)) {
-//				(((int*)(void*)(particles))[i])[offset + threadIdx.x] =
-//					(((int*)(void*)(devData->read))[(blockIdx.x << 2) + i])[offset + threadIdx.x];
-//			}
-//		}
-//	}
+	
+	// Add force from mouse click
+	if (inputData.isClicking) {
+		if (!inputData.wasClickedLastFrame && particles[blockParticleIndex].isSelected) {
+			particles[blockParticleIndex].velocity.x[1] += 
+				(inputData.mouseY - particles[blockParticleIndex].position.x[1])* TIME_STEP;
+			particles[blockParticleIndex].velocity.x[2] += 
+				(inputData.mouseZ - particles[blockParticleIndex].position.x[2]) * TIME_STEP;
+		}
+		else if (inputData.wasClickedLastFrame)
+		{
+			float distanceMax = 50.0;
+			if (fabsf(inputData.mouseY - particles[blockParticleIndex].position.x[1]) < distanceMax &&
+				(fabsf(inputData.mouseZ - particles[blockParticleIndex].position.x[2]) < distanceMax ))
+				
+				// do this if particle is close to mouse pointer
+				particles[blockParticleIndex].isSelected = 1;
+		}
+	}
+	if(!inputData.isClicking)
+	{
+		particles[blockParticleIndex].isSelected = 0;
+	}
+
 
 	// Read bindings from global memory
 	globalBindingIndex =

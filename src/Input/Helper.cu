@@ -1,6 +1,7 @@
 #include <iostream>
-#include <GL/glu.h>
+#include <GL/glut.h>
 #include <Cloth/Helper.cuh>
+#include <algorithm>
 
 int GraphicsState::isClicking = 0;
 int GraphicsState::wasClickedLastFrame = 0;
@@ -10,9 +11,16 @@ int GraphicsState::mouseZ = 0;
 // Mouse input callback
 void onMouseButtonFunction (int button, int state,  int x, int y)
 {
-    //update that mouse is now being clicked
-    GraphicsState::updateIsClicking();
-    GraphicsState::wasClickedLastFrame = 1;
+	if (state == GLUT_DOWN)
+	{
+		GraphicsState::isClicking = 1;
+		GraphicsState::wasClickedLastFrame = 1;
+	}
+	else
+	{
+		GraphicsState::isClicking = 0;
+		GraphicsState::wasClickedLastFrame = 0;
+	}
 }
 
 // Called when mouse is moved while a button is being clicked
@@ -35,8 +43,6 @@ void mouseMovedWhileClickedFunction(int x, int y)
 	//get the world coordinates from the screen coordinates
 	gluUnProject( winX, winY, 0.0, modelview, projection, viewport, &worldX, &worldY, &worldZ);
 	gluUnProject( winX, winY, 1.0, modelview, projection, viewport, &worldX, &worldY, &worldZ);
-	
-	std::cout << "Mouse world coordinates: " << worldX << ", " << worldY << ", " << worldZ << std::endl;
 	
 	GraphicsState::updateMousePosition(worldY, worldZ);
 }

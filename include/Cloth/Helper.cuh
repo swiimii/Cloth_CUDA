@@ -9,16 +9,12 @@ class GraphicsState {
 	static void updateMousePosition(int y, int z) {
 		mouseY = y; mouseZ = z;
 	};
-	static void updateIsClicking() {
-		isClicking = (isClicking + 1) % 2;
-	}
 };
 
 struct InputData {
 public:
-	int isClicking, mouseY, mouseZ;
-	InputData(int ci, int myi, int mzi) : isClicking(ci), mouseY(myi), mouseZ(mzi) {}
-	
+	int isClicking, mouseY, mouseZ, wasClickedLastFrame;
+	InputData(int ci, int wc, int myi, int mzi) : isClicking(ci), wasClickedLastFrame(wc), mouseY(myi), mouseZ(mzi) {}
 };
 
 

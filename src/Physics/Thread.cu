@@ -1,5 +1,5 @@
 #include <Cloth/Physics.cuh>
-
+#include <Cloth/Helper.cuh>
 #include <stdio.h>
 
 void* physicsThreadFunc(void* nothing) {
@@ -33,12 +33,20 @@ void* physicsThreadFunc(void* nothing) {
 		sizeof(DeviceData),
 		cudaMemcpyHostToDevice
 	);
-		
+
 	const size_t minStepsPerFrame = 64;
 physicsThreadLoop:
 	for(size_t i = 0; i < minStepsPerFrame || rendering; ++i) {
+		
+		// Instantiate struct with input data
+		InputData inputData = InputData(GraphicsState::isClicking,
+										GraphicsState::wasClickedLastFrame,
+										GraphicsState::mouseY,
+										GraphicsState::mouseZ);
+
+
 		// CUDA kernel
-		physicsKernel<<<(particleCount >> 2),(8 << 2)>>>(deviceData_dev);
+		physicsKernel<<<(particleCount >> 2),(8 << 2)>>>(deviceData_dev, inputData);
 
 		// Swap device buffers
 		Particle* tempParticleBuffer = deviceData_host.read;

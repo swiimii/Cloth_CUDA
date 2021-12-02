@@ -1,4 +1,5 @@
 #include <Cloth/Physics.cuh>
+#include <Cloth/Helper.cuh>
 
 __device__ void bindingForces(Particle* particles, Vector4 (*bindingPositions)[8]) {
 
