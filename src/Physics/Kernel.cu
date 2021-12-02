@@ -27,25 +27,10 @@ void physicsKernel(DeviceData* devData, InputData inputData) {
 	
 	// Add force from mouse click
 	if (inputData.isClicking) {
-		if (!inputData.wasClickedLastFrame && particles[blockParticleIndex].isSelected) {
 			particles[blockParticleIndex].velocity.x[1] += 
-				(inputData.mouseY - particles[blockParticleIndex].position.x[1])* TIME_STEP;
+				inputData.mouseY * TIME_STEP;
 			particles[blockParticleIndex].velocity.x[2] += 
-				(inputData.mouseZ - particles[blockParticleIndex].position.x[2]) * TIME_STEP;
-		}
-		else if (inputData.wasClickedLastFrame)
-		{
-			float distanceMax = 50.0;
-			if (fabsf(inputData.mouseY - particles[blockParticleIndex].position.x[1]) < distanceMax &&
-				(fabsf(inputData.mouseZ - particles[blockParticleIndex].position.x[2]) < distanceMax ))
-				
-				// do this if particle is close to mouse pointer
-				particles[blockParticleIndex].isSelected = 1;
-		}
-	}
-	if(!inputData.isClicking)
-	{
-		particles[blockParticleIndex].isSelected = 0;
+				inputData.mouseZ * TIME_STEP;
 	}
 
 
