@@ -10,6 +10,7 @@
 #include <pthread.h>
 
 #include <Cloth/Particle.hpp>
+#include <Cloth/Helper.cuh>
 
 // Amount of time through which the world will step each time the phsycis kernel
 //   is called
@@ -58,7 +59,7 @@ void* physicsThreadFunc(void* nothing);
  * Handle global/shared memory transfers and call other device kernel fucntions.
  */
 __global__
-void physicsKernel(DeviceData* devData);
+void physicsKernel(DeviceData* devData, InputData inputData);
 
 /*
  * BindingForce.cu

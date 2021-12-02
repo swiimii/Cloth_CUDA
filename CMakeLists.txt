@@ -20,6 +20,7 @@ cuda_add_executable(cloth
 	src/Physics/Kernel.cu
 	src/Physics/BindingForce.cu
 	src/Input/Input.cpp
+	src/Input/Helper.cu
 )
 target_link_libraries(cloth
 	${CUDA_LIBRARIES}

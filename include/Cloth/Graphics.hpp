@@ -62,4 +62,8 @@ void myGlutIdleFunc();
 // glutKeyboardFunc -- handle key press
 void myGlutKeyboardFunc(unsigned char key, int x, int y);
 
+void onMouseButtonFunction (int button, int state,  int x, int y);
+
+void mouseMovedWhileClickedFunction(int x, int y);
+
 #endif
