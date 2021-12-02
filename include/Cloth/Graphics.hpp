@@ -38,13 +38,13 @@ extern size_t graphicsOptions;
 class GraphicsState {
 	public:
 	static int isClicking;
-	static int mouseX, mouseY;
-	static int updateMouseState(int x, int y) {
-		isClicking = (isClicking + 1) % 2; 
-		mouseX = x;
-		mouseY = y;
-		return isClicking;
+	static int mouseY, mouseZ;
+	static void updateMousePosition(int y, int z) {
+		mouseY = y; mouseZ = z;
 	};
+	static void updateIsClicking() {
+		isClicking = (isClicking + 1) % 2;
+	}
 };
 
 //----------------------------------------------------------------------------//

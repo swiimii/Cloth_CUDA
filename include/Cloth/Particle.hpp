@@ -29,6 +29,7 @@ struct Particle {
 	Vector4 position, velocity;
 	Binding bindings[8];
 	float mass;
+	int isSelected;
 	int fixed;
 };
 

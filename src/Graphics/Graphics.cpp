@@ -1,9 +1,10 @@
 #include <Cloth/Graphics.hpp>
+#include <GL/glu.h>
 #include <iostream>
 
 int GraphicsState::isClicking = 0;
 int GraphicsState::mouseY = 0;
-int GraphicsState::mouseX = 0;
+int GraphicsState::mouseZ = 0;
 
 void graphicsStart(int* argc, char** argv) {
 	glutInit(argc, argv);
@@ -96,14 +97,32 @@ void myGlutKeyboardFunc(unsigned char key, int x, int y) {
 // Mouse input callback
 void onMouseButtonFunction (int button, int state,  int x, int y)
 {
-    //getting cursor position
-    int currState = (GraphicsState::updateMouseState(x,y));
-    std::cout << currState << std::endl;
+    //update that mouse is now being clicked
+    GraphicsState::updateIsClicking();
 }
 
 // Called when mouse is moved while a button is being clicked
 void mouseMovedWhileClickedFunction(int x, int y)
 {
-	std::cout << x << " " << y << std::endl;
+	GLint viewport[4]; //hold the viewport info
+	GLdouble modelview[16]; //hold the modelview info
+	GLdouble projection[16]; //hold the projection matrix info
+	GLfloat winX, winY, winZ; //hold screen x,y,z coordinates
+	GLdouble worldX, worldY, worldZ; //hold world x,y,z coordinates
+
+	glGetDoublev( GL_MODELVIEW_MATRIX, modelview ); //get the modelview info
+	glGetDoublev( GL_PROJECTION_MATRIX, projection ); //get the projection matrix info
+	glGetIntegerv( GL_VIEWPORT, viewport ); //get the viewport info
+
+	winX = (float)x;
+	winY = (float)viewport[3] - (float)y;
+
+	//get the world coordinates from the screen coordinates
+	gluUnProject( winX, winY, 0.0, modelview, projection, viewport, &worldX, &worldY, &worldZ);
+	gluUnProject( winX, winY, 1.0, modelview, projection, viewport, &worldX, &worldY, &worldZ);
+	
+	std::cout << "Mouse world coordinates: " << worldX << ", " << worldY << ", " << worldZ << std::endl;
+	
+	GraphicsState::updateMousePosition(worldY, worldZ);
 }
 
